@@ -87,7 +87,7 @@ echo
 
 echo
 echo "=================================================="
-echo "3. CRIANDO AZURE WEB APP - Serviço de Aplicaativo"
+echo "3. CRIANDO AZURE WEB APP - Serviço de Aplicativo"
 echo "=================================================="
 echo
 
@@ -142,7 +142,7 @@ echo
 az webapp deploy \
     --name "$APP_NAME" \
     --resource-group "$RESOURCE_GROUP" \
-    --src-path . \
+    --src-path .\
     --type zip
 
 echo
