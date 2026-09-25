@@ -1,0 +1,296 @@
+#!/bin/bash
+
+# ==========================================================
+# DEPLOY FLASK NO AZURE APP SERVICE
+#
+# Executar no Azure Cloud Shell - Bash
+#
+# Fluxo:
+# GitHub
+#   ↓
+# git clone
+#   ↓
+# Resource Group
+#   ↓
+# App Service Plan
+#   ↓
+# Web App
+#   ↓
+# az webapp deploy
+# ==========================================================
+
+set -euo pipefail
+
+
+# ==========================================================
+# CONFIGURAÇÕES
+# ==========================================================
+
+# Repositório GitHub contendo a aplicação Flask
+#
+# Altere para seu Repositório GitHub
+#
+#REPO_URL="https://github.com/SEU_GITHUB/flask-cadastro-clientes.git"
+REPO_URL="https://github.com/profjoaomenk/flask-cadastro-clientes.git"
+
+# Nome da pasta criada pelo git clone
+PROJECT_DIR="flask-cadastro-clientes"
+
+# Azure
+RESOURCE_GROUP="rg-flask-demo"
+#
+# Altere para sua localização (Verifique as regiões na Política)
+#
+LOCATION="brazilsouth"
+
+# App Service
+APP_SERVICE_PLAN="plan-flask-demo"
+
+#
+# Altere para seu RM
+#
+APP_NAME="flask-cadastro-rm9999"
+
+# Runtime Python
+RUNTIME="PYTHON:3.14"
+
+# SKU do App Service Plan
+SKU="F1"
+
+
+# ==========================================================
+# 1. CLONAR O PROJETO DO GITHUB
+# ==========================================================
+
+echo
+echo "=================================================="
+echo "1. CLONANDO O PROJETO DO GITHUB"
+echo "=================================================="
+echo
+
+if [ -d "$PROJECT_DIR" ]; then
+    echo "ERRO: a pasta '$PROJECT_DIR' já existe."
+    echo
+    echo "Remova a pasta ou execute o script em outro diretório."
+    exit 1
+fi
+
+git clone "$REPO_URL"
+
+cd "$PROJECT_DIR"
+
+echo
+echo "Projeto clonado com sucesso:"
+pwd
+echo
+
+
+# ==========================================================
+# 2. VALIDAR ARQUIVOS DO PROJETO
+# ==========================================================
+
+echo
+echo "=================================================="
+echo "2. VALIDANDO O PROJETO"
+echo "=================================================="
+echo
+
+if [ ! -f "app.py" ]; then
+    echo "ERRO: app.py não encontrado."
+    exit 1
+fi
+
+if [ ! -f "requirements.txt" ]; then
+    echo "ERRO: requirements.txt não encontrado."
+    exit 1
+fi
+
+echo "Arquivos necessários encontrados."
+echo
+
+
+# ==========================================================
+# 3. VERIFICAR ASSINATURA AZURE
+# ==========================================================
+
+echo
+echo "=================================================="
+echo "3. ASSINATURA AZURE"
+echo "=================================================="
+echo
+
+az account show \
+    --output table
+
+echo
+
+
+# ==========================================================
+# 4. CRIAR RESOURCE GROUP
+# ==========================================================
+
+echo
+echo "=================================================="
+echo "4. CRIANDO RESOURCE GROUP"
+echo "=================================================="
+echo
+
+az group create \
+    --name "$RESOURCE_GROUP" \
+    --location "$LOCATION" \
+    --output table
+
+echo
+
+
+# ==========================================================
+# 5. CRIAR APP SERVICE PLAN
+# ==========================================================
+
+echo
+echo "=================================================="
+echo "5. CRIANDO APP SERVICE PLAN"
+echo "=================================================="
+echo
+
+az appservice plan create \
+    --name "$APP_SERVICE_PLAN" \
+    --resource-group "$RESOURCE_GROUP" \
+    --location "$LOCATION" \
+    --sku "$SKU" \
+    --is-linux \
+    --output table
+
+echo
+
+
+# ==========================================================
+# 6. CRIAR AZURE WEB APP
+# ==========================================================
+
+echo
+echo "=================================================="
+echo "6. CRIANDO AZURE WEB APP"
+echo "=================================================="
+echo
+
+az webapp create \
+    --name "$APP_NAME" \
+    --resource-group "$RESOURCE_GROUP" \
+    --plan "$APP_SERVICE_PLAN" \
+    --runtime "$RUNTIME" \
+    --output table
+
+echo
+
+
+# ==========================================================
+# 7. CONFIGURAR BUILD AUTOMÁTICO
+# ==========================================================
+
+echo
+echo "==========================================================="
+echo "7. CONFIGURANDO BUILD DA APLICAÇÃO - VARIÁVEIS DE AMBIENTE"
+echo "==========================================================="
+#
+# Configura as variáveis de ambiente necessárias ao projeto, poderiam ser: URL, Usuário e Senha de um Banco por exemplo
+#
+echo
+
+az webapp config appsettings set \
+    --name "$APP_NAME" \
+    --resource-group "$RESOURCE_GROUP" \
+    --settings \
+        SCM_DO_BUILD_DURING_DEPLOYMENT=true
+
+echo
+
+
+# ==========================================================
+# 8. CONFIGURAR STARTUP COMMAND
+# ==========================================================
+
+echo
+echo "=================================================="
+echo "8. CONFIGURANDO GUNICORN"
+echo "=================================================="
+#
+# Quando iniciar este Web App, use o Gunicorn para executar a aplicação Flask que está no arquivo app.py
+#
+echo
+
+az webapp config set \
+    --name "$APP_NAME" \
+    --resource-group "$RESOURCE_GROUP" \
+    --startup-file "gunicorn --bind=0.0.0.0:8000 app:app"
+
+echo
+
+
+# ==========================================================
+# 9. REALIZAR O DEPLOY
+# ==========================================================
+
+echo
+echo "=================================================="
+echo "9. REALIZANDO DEPLOY COM AZ WEBAPP DEPLOY"
+echo "=================================================="
+echo
+
+az webapp deploy \
+    --name "$APP_NAME" \
+    --resource-group "$RESOURCE_GROUP" \
+    --src-path . \
+    --type zip
+
+echo
+
+
+# ==========================================================
+# 10. REINICIAR WEB APP
+# ==========================================================
+
+echo
+echo "=================================================="
+echo "10. REINICIANDO WEB APP"
+echo "=================================================="
+echo
+
+az webapp restart \
+    --name "$APP_NAME" \
+    --resource-group "$RESOURCE_GROUP"
+
+echo
+
+
+# ==========================================================
+# 11. EXIBIR INFORMAÇÕES DO DEPLOY
+# ==========================================================
+
+echo
+echo "=================================================="
+echo "DEPLOY CONCLUÍDO!"
+echo "=================================================="
+echo
+
+echo "Resource Group:"
+echo "$RESOURCE_GROUP"
+
+echo
+echo "App Service Plan:"
+echo "$APP_SERVICE_PLAN"
+
+echo
+echo "Web App:"
+echo "$APP_NAME"
+
+echo
+echo "URL da aplicação:"
+echo "https://${APP_NAME}.azurewebsites.net"
+
+echo
+echo "=================================================="
+echo "ACESSE A APLICAÇÃO:"
+echo "https://${APP_NAME}.azurewebsites.net"
+echo "=================================================="
+echo
