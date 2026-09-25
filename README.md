@@ -41,9 +41,11 @@ az account list -o table
 az account set --subscription "nome-da-subscrição"
 ```
 
-4) Altere as variaveis: REPO_URL, APP_NAME e LOCATION de acordo com a necessidade
+4) Realize o Clone do Projeto e entre no diretório criado
 
-5) No terminal: 
+5) Altere as variaveis: REPO_URL, APP_NAME e LOCATION de acordo com a necessidade no arquivo: "deploy-azure.sh"
+
+6) No terminal: 
 
 ```bash
 chmod +x deploy-azure.sh
