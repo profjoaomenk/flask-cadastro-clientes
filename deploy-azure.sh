@@ -8,8 +8,6 @@
 # Fluxo:
 # GitHub
 #   ↓
-# git clone
-#   ↓
 # Resource Group
 #   ↓
 # App Service Plan
@@ -59,40 +57,7 @@ SKU="F1"
 
 echo
 echo "=================================================="
-echo "1. CLONANDO O PROJETO DO GITHUB"
-echo "=================================================="
-echo
-
-if [ -d "$PROJECT_DIR" ]; then
-    echo "ERRO: a pasta '$PROJECT_DIR' já existe."
-    echo
-    echo "Remova a pasta ou execute o script em outro diretório."
-    exit 1
-fi
-
-git clone "$REPO_URL"
-
-cd "$PROJECT_DIR"
-
-echo
-echo "Projeto clonado com sucesso:"
-pwd
-echo
-
-echo
-echo "=================================================="
-echo "3. ASSINATURA AZURE"
-echo "=================================================="
-echo
-
-az account show \
-    --output table
-
-echo
-
-echo
-echo "=================================================="
-echo "4. CRIANDO RESOURCE GROUP"
+echo "1. CRIANDO RESOURCE GROUP"
 echo "=================================================="
 echo
 
@@ -105,7 +70,7 @@ echo
 
 echo
 echo "=================================================="
-echo "5. CRIANDO APP SERVICE PLAN"
+echo "2. CRIANDO APP SERVICE PLAN"
 echo "=================================================="
 echo
 
@@ -122,7 +87,7 @@ echo
 
 echo
 echo "=================================================="
-echo "6. CRIANDO AZURE WEB APP - Serviço de Aplicaativo"
+echo "3. CRIANDO AZURE WEB APP - Serviço de Aplicaativo"
 echo "=================================================="
 echo
 
@@ -137,7 +102,7 @@ echo
 
 echo
 echo "==========================================================="
-echo "7. CONFIGURANDO BUILD DA APLICAÇÃO - VARIÁVEIS DE AMBIENTE"
+echo "4. CONFIGURANDO BUILD DA APLICAÇÃO - VARIÁVEIS DE AMBIENTE"
 echo "==========================================================="
 #
 # Configura as variáveis de ambiente necessárias ao projeto, poderiam ser: URL, Usuário e Senha de um Banco por exemplo
@@ -154,7 +119,7 @@ echo
 
 echo
 echo "====================================================="
-echo "8. CONFIGURAR STARTUP COMMAND - CONFIGURANDO GUNICORN"
+echo "5. CONFIGURAR STARTUP COMMAND - CONFIGURANDO GUNICORN"
 echo "====================================================="
 #
 # Quando iniciar este Web App, use o Gunicorn para executar a aplicação Flask que está no arquivo app.py
@@ -170,7 +135,7 @@ echo
 
 echo
 echo "=================================================="
-echo "9. REALIZANDO DEPLOY COM AZ WEBAPP DEPLOY"
+echo "6. REALIZANDO DEPLOY COM AZ WEBAPP DEPLOY"
 echo "=================================================="
 echo
 
@@ -184,7 +149,7 @@ echo
 
 echo
 echo "=================================================="
-echo "10. REINICIANDO WEB APP"
+echo "7. REINICIANDO WEB APP"
 echo "=================================================="
 echo
 
