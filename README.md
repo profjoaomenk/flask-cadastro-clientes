@@ -28,9 +28,22 @@ o deploy de uma aplicação no Azure App Service pelo CLI
 Antes de executar o Script: 
 
 1) Verifique se está em um terminal Bash
-2) Verifique se está na conta da Azure correta
-3) Caso haja necessidade de trocar: 
-4) Altere as variaveis: REPO_URL, APP_NAME e LOCATION de acordo com a necessidade
+   
+3) Verifique se está na conta da Azure correta
+
+```bash
+az account list -o table
+```
+
+5) Caso haja necessidade de trocar: 
+
+```bash
+az account set --subscription "nome-da-subscrição"
+```
+
+6) Altere as variaveis: REPO_URL, APP_NAME e LOCATION de acordo com a necessidade
+
+No terminal: 
 
 chmod +x deploy-azure.sh
 
