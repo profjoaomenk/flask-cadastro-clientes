@@ -29,22 +29,25 @@ Antes de executar o Script:
 
 1) Verifique se está em um terminal Bash
    
-3) Verifique se está na conta da Azure correta
+2) Verifique se está na conta da Azure correta
 
 ```bash
 az account list -o table
 ```
 
-5) Caso haja necessidade de trocar: 
+3) Caso haja necessidade de trocar: 
 
 ```bash
 az account set --subscription "nome-da-subscrição"
 ```
 
-6) Altere as variaveis: REPO_URL, APP_NAME e LOCATION de acordo com a necessidade
+4) Altere as variaveis: REPO_URL, APP_NAME e LOCATION de acordo com a necessidade
 
-No terminal: 
+5) No terminal: 
 
+```bash
 chmod +x deploy-azure.sh
-
+```
+```bash
 ./deploy-azure.sh
+```
