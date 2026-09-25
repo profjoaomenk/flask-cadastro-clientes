@@ -142,7 +142,7 @@ echo
 az webapp deploy \
     --name "$APP_NAME" \
     --resource-group "$RESOURCE_GROUP" \
-    --src-path .\
+    --src-path . \
     --type zip
 
 echo
