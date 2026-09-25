@@ -139,10 +139,15 @@ echo "6. REALIZANDO DEPLOY COM AZ WEBAPP DEPLOY"
 echo "=================================================="
 echo
 
+#
+# Zipar a aplicação
+#
+zip -r app.zip . -x "*.git*"
+
 az webapp deploy \
     --name "$APP_NAME" \
     --resource-group "$RESOURCE_GROUP" \
-    --src-path . \
+    --src-path ./app.zip \
     --type zip
 
 echo
