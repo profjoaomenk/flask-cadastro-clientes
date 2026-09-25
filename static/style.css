@@ -1,0 +1,147 @@
+:root {
+    --azure: #0078d4;
+    --azure-dark: #005a9e;
+    --background: #f2f6fa;
+    --text: #263445;
+    --muted: #68788a;
+    --border: #dce4ec;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: Arial, Helvetica, sans-serif;
+    color: var(--text);
+    background:
+        radial-gradient(circle at top left, #e0f1ff, transparent 45%),
+        var(--background);
+}
+
+.container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 32px 16px;
+}
+
+.card {
+    width: 100%;
+    max-width: 480px;
+    padding: 36px;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    box-shadow: 0 16px 45px rgba(31, 61, 90, 0.10);
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.logo {
+    display: inline-block;
+    padding: 8px 18px;
+    margin-bottom: 12px;
+    color: white;
+    background: var(--azure);
+    border-radius: 8px;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+h1 {
+    margin: 8px 0;
+    font-size: 25px;
+}
+
+.header p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.campo {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+input {
+    width: 100%;
+    padding: 13px 14px;
+    border: 1px solid #cbd5df;
+    border-radius: 8px;
+    background: #fff;
+    font-size: 15px;
+}
+
+input:focus {
+    outline: 2px solid #9bd0ff;
+    border-color: var(--azure);
+}
+
+button {
+    width: 100%;
+    padding: 14px;
+    border: 0;
+    border-radius: 8px;
+    background: var(--azure);
+    color: white;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+button:hover {
+    background: var(--azure-dark);
+}
+
+.mensagem {
+    margin-bottom: 22px;
+    padding: 14px;
+    border-radius: 8px;
+    background: #e8f5e9;
+    color: #256b35;
+    font-size: 14px;
+    overflow-wrap: anywhere;
+}
+
+.observacao {
+    margin-top: 24px;
+    color: var(--muted);
+    text-align: center;
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.rodape {
+    margin: 22px 0 0;
+    color: var(--muted);
+    text-align: center;
+    font-size: 12px;
+}
+
+@media (max-width: 480px) {
+    .card {
+        padding: 26px 20px;
+    }
+
+    h1 {
+        font-size: 22px;
+    }
+}
