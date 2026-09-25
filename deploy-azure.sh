@@ -57,11 +57,6 @@ RUNTIME="PYTHON:3.14"
 # SKU do App Service Plan
 SKU="F1"
 
-
-# ==========================================================
-# 1. CLONAR O PROJETO DO GITHUB
-# ==========================================================
-
 echo
 echo "=================================================="
 echo "1. CLONANDO O PROJETO DO GITHUB"
@@ -84,35 +79,6 @@ echo "Projeto clonado com sucesso:"
 pwd
 echo
 
-
-# ==========================================================
-# 2. VALIDAR ARQUIVOS DO PROJETO
-# ==========================================================
-
-echo
-echo "=================================================="
-echo "2. VALIDANDO O PROJETO"
-echo "=================================================="
-echo
-
-if [ ! -f "app.py" ]; then
-    echo "ERRO: app.py não encontrado."
-    exit 1
-fi
-
-if [ ! -f "requirements.txt" ]; then
-    echo "ERRO: requirements.txt não encontrado."
-    exit 1
-fi
-
-echo "Arquivos necessários encontrados."
-echo
-
-
-# ==========================================================
-# 3. VERIFICAR ASSINATURA AZURE
-# ==========================================================
-
 echo
 echo "=================================================="
 echo "3. ASSINATURA AZURE"
@@ -123,11 +89,6 @@ az account show \
     --output table
 
 echo
-
-
-# ==========================================================
-# 4. CRIAR RESOURCE GROUP
-# ==========================================================
 
 echo
 echo "=================================================="
@@ -141,11 +102,6 @@ az group create \
     --output table
 
 echo
-
-
-# ==========================================================
-# 5. CRIAR APP SERVICE PLAN
-# ==========================================================
 
 echo
 echo "=================================================="
@@ -164,13 +120,9 @@ az appservice plan create \
 echo
 
 
-# ==========================================================
-# 6. CRIAR AZURE WEB APP
-# ==========================================================
-
 echo
 echo "=================================================="
-echo "6. CRIANDO AZURE WEB APP"
+echo "6. CRIANDO AZURE WEB APP - Serviço de Aplicaativo"
 echo "=================================================="
 echo
 
@@ -182,11 +134,6 @@ az webapp create \
     --output table
 
 echo
-
-
-# ==========================================================
-# 7. CONFIGURAR BUILD AUTOMÁTICO
-# ==========================================================
 
 echo
 echo "==========================================================="
@@ -205,15 +152,10 @@ az webapp config appsettings set \
 
 echo
 
-
-# ==========================================================
-# 8. CONFIGURAR STARTUP COMMAND
-# ==========================================================
-
 echo
-echo "=================================================="
-echo "8. CONFIGURANDO GUNICORN"
-echo "=================================================="
+echo "====================================================="
+echo "8. CONFIGURAR STARTUP COMMAND - CONFIGURANDO GUNICORN"
+echo "====================================================="
 #
 # Quando iniciar este Web App, use o Gunicorn para executar a aplicação Flask que está no arquivo app.py
 #
@@ -225,11 +167,6 @@ az webapp config set \
     --startup-file "gunicorn --bind=0.0.0.0:8000 app:app"
 
 echo
-
-
-# ==========================================================
-# 9. REALIZAR O DEPLOY
-# ==========================================================
 
 echo
 echo "=================================================="
@@ -245,11 +182,6 @@ az webapp deploy \
 
 echo
 
-
-# ==========================================================
-# 10. REINICIAR WEB APP
-# ==========================================================
-
 echo
 echo "=================================================="
 echo "10. REINICIANDO WEB APP"
@@ -261,11 +193,6 @@ az webapp restart \
     --resource-group "$RESOURCE_GROUP"
 
 echo
-
-
-# ==========================================================
-# 11. EXIBIR INFORMAÇÕES DO DEPLOY
-# ==========================================================
 
 echo
 echo "=================================================="
