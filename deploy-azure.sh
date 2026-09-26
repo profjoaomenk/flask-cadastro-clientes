@@ -98,6 +98,10 @@ echo "==========================================================="
 # Configura as variáveis de ambiente necessárias ao projeto, poderiam ser: URL, Usuário e Senha de um Banco por exemplo
 # Essa variável "SCM_DO_BUILD_DURING_DEPLOYMENT=true" é necessária em Python pois processo de build usa para instalar as dependências
 # 
+# Note: 'az webapp deploy' does not run build automation (dependency installation, compilation, etc.) by default for Linux web apps
+# If your package is not pre-built, set the app setting SCM_DO_BUILD_DURING_DEPLOYMENT=true to enable builds during deployment
+#
+
 echo
 
 az webapp config appsettings set \
