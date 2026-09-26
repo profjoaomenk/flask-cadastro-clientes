@@ -19,20 +19,10 @@
 
 set -euo pipefail
 
-
 # ==========================================================
-# CONFIGURAÇÕES
+# VARIÁVEIS
 # ==========================================================
 
-# Repositório GitHub contendo a aplicação Flask
-#
-# Altere para seu Repositório GitHub
-#
-#REPO_URL="https://github.com/SEU_GITHUB/flask-cadastro-clientes.git"
-REPO_URL="https://github.com/profjoaomenk/flask-cadastro-clientes.git"
-
-# Nome da pasta criada pelo git clone
-PROJECT_DIR="flask-cadastro-clientes"
 
 # Azure
 RESOURCE_GROUP="rg-flask-demo"
@@ -106,7 +96,8 @@ echo "4. CONFIGURANDO BUILD DA APLICAÇÃO - VARIÁVEIS DE AMBIENTE"
 echo "==========================================================="
 #
 # Configura as variáveis de ambiente necessárias ao projeto, poderiam ser: URL, Usuário e Senha de um Banco por exemplo
-#
+# Essa variável "SCM_DO_BUILD_DURING_DEPLOYMENT=true" é necessária em Python pois processo de build usa para instalar as dependências
+# 
 echo
 
 az webapp config appsettings set \
@@ -140,7 +131,7 @@ echo "=================================================="
 echo
 
 #
-# Antes de realizar o Deploy, zipar a aplicação
+# Antes de realizar o Deploy, zipar a aplicação para: "app.zip"
 #
 
 zip -r app.zip . \
