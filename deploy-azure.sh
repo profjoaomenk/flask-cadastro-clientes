@@ -129,7 +129,7 @@ echo
 az webapp config set \
     --name "$APP_NAME" \
     --resource-group "$RESOURCE_GROUP" \
-    --startup-file "gunicorn --bind=0.0.0.0:8000 app:app"
+    --startup-file "gunicorn --bind=0.0.0.0 app:app"
 
 echo
 
@@ -140,9 +140,14 @@ echo "=================================================="
 echo
 
 #
-# Zipar a aplicação
+# Antes de realizar o Deploy, zipar a aplicação
 #
-zip -r app.zip . -x "*.git*"
+
+zip -r app.zip . \
+    -x ".git/*" \
+    -x "__pycache__/*" \
+    -x "*.pyc"
+
 
 az webapp deploy \
     --name "$APP_NAME" \
