@@ -43,7 +43,15 @@ az account set --subscription "nome-da-subscrição"
 
 4) Realize o Clone do Projeto e entre no diretório criado
 
-5) Altere as variaveis: REPO_URL, APP_NAME e LOCATION de acordo com a necessidade no arquivo: "deploy-azure.sh"
+```bash
+git clone https://github.com/profjoaomenk/flask-cadastro-clientes
+```
+
+```bash
+cd flask-cadastro-clientes
+```
+
+5) Altere as variaveis: APP_NAME e LOCATION de acordo com a necessidade no arquivo: "deploy-azure.sh"
 
 6) No terminal: 
 
